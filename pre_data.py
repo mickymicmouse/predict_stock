@@ -17,6 +17,7 @@ import sqlite3
 import datetime
 
 def naver(select):
+    print('connect to naver finance')
     select = select
     choice = select.split('.')
     
@@ -33,27 +34,32 @@ def naver(select):
     html = BeautifulSoup(source_code, "html.parser")
     
     #테이블 불러오기
-    table = html.select('table.type_2')[0]
-    #aa=table.select('tr')
+    try:
+
+        table = html.select('table.type_2')[0]
+        #aa=table.select('tr')
     
-    #이름 불러오기
-    title = table.select('a.tltle')
-    #price = table.select('td.number')
-    
-    index=[]
-    num=0
-    names=[]
-    for i in title:
-        num+=1
-        index.append(num)
-        names.append(i.text)
+        #이름 불러오기
+        title = table.select('a.tltle')
+        #price = table.select('td.number')
+        index=[]
+        num=0
+        names=[]
+        for i in title:
+            num+=1
+            index.append(num)
+            names.append(i.text)
         
     
     
-    result= {"Rank" : index,"Name" : names} 
-    df_result = pd.DataFrame(result)
-    df_result.head(10)
-    print(df_result)
+        result= {"Rank" : index,"Name" : names} 
+        df_result = pd.DataFrame(result)
+        df_result.head(10)
+        print(df_result)
+    except:
+        print('cant connect to finance data by wifi')
+        print('plz try again')
+        exit()
     return df_result.head(10)
 
 
